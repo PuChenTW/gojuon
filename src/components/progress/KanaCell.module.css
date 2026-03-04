@@ -1,0 +1,33 @@
+.cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 0.5rem 0.25rem;
+  border-radius: var(--radius-sm);
+  min-width: 44px;
+  min-height: 52px;
+  transition: transform 0.1s;
+}
+
+.cell:hover {
+  transform: scale(1.05);
+}
+
+.kana {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.romaji {
+  font-size: 0.6rem;
+  opacity: 0.8;
+}
+
+/* Proficiency level colors */
+.level-0 { background: var(--color-mastery-0); color: #555; }
+.level-1 { background: var(--color-mastery-1); color: white; }
+.level-2 { background: var(--color-mastery-2); color: #333; }
+.level-3 { background: var(--color-mastery-3); color: #1B5E20; }
+.level-4 { background: var(--color-mastery-4); color: white; }

@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.prompt {
+  font-size: var(--font-size-kana);
+  line-height: 1;
+  text-align: center;
+}
+
+.options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.option {
+  padding: 1rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  font-size: var(--font-size-lg);
+  text-align: center;
+  transition: all 0.15s;
+  font-weight: 600;
+}
+
+.option:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  background: #FFF5F4;
+}
+
+.option.correct {
+  border-color: #2E7D32;
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.option.incorrect {
+  border-color: #C62828;
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+.option:disabled {
+  cursor: default;
+}

@@ -1,0 +1,73 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.counter {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  align-self: flex-start;
+}
+
+.cardArea {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.actionBtn {
+  flex: 1;
+  padding: 0.875rem;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.btnWrong {
+  background: #FFEBEE;
+  color: #C62828;
+  border: 2px solid #EF9A9A;
+}
+
+.btnWrong:hover { background: #FFCDD2; }
+
+.btnCorrect {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 2px solid #A5D6A7;
+}
+
+.btnCorrect:hover { background: #C8E6C9; }
+
+.actionBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--color-text-secondary);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.doneText {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
