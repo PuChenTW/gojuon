@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# ごじゅうおん — 日文50音學習 PWA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+行動優先的日文平假名學習應用，使用間隔重複算法（SM-2）輔助記憶，旅行主題例句加深印象。
 
-Currently, two official plugins are available:
+## 功能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **フラッシュカード** — CSS 3D 翻轉動畫，答題後記錄熟練度
+- **クイズ** — 選擇題與輸入題交替出現
+- **進捗グリッド** — 50音方格熟練度視覺化（5色等級）
+- **離線可用** — PWA + Workbox Service Worker
+- **本地儲存** — IndexedDB，無需登入
 
-## React Compiler
+## 快速開始
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+pnpm install
+pnpm dev       # 開發伺服器 http://localhost:5173
+pnpm build     # 生產建置
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 技術棧
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| 層次 | 技術 |
+|------|------|
+| 框架 | React 19 + TypeScript + Vite |
+| PWA | vite-plugin-pwa + Workbox |
+| 儲存 | IndexedDB（原生 API） |
+| SRS | SM-2 算法（純函式） |
+| 樣式 | CSS Modules + CSS 自訂屬性 |
+| 路由 | 純 state（無 React Router） |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 熟練度等級
+
+| 等級 | 顏色 | 條件 |
+|------|------|------|
+| 未學習 | 灰 | reps = 0 |
+| 學習中 | 紅 | reps = 1 |
+| 熟悉中 | 黃 | reps = 2 |
+| 已掌握 | 淡綠 | reps = 3 |
+| 精通 | 深綠 | reps ≥ 4 |
