@@ -39,11 +39,6 @@
   color: var(--color-text);
 }
 
-.wordReadingFront {
-  font-size: var(--font-size-sm);
-  color: var(--color-text-secondary);
-}
-
 .wordMeaningFront {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
