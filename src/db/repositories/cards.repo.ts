@@ -21,6 +21,7 @@ export async function seedCards(cards: KanaCard[]): Promise<void> {
     }
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error ?? new Error('Transaction aborted'));
   });
 }
 
