@@ -2,11 +2,13 @@ const DB_NAME = 'gojuon-db';
 const DB_VERSION = 1;
 
 let dbInstance: IDBDatabase | null = null;
+let dbOpenPromise: Promise<IDBDatabase> | null = null;
 
 export function openDatabase(): Promise<IDBDatabase> {
   if (dbInstance) return Promise.resolve(dbInstance);
+  if (dbOpenPromise) return dbOpenPromise;
 
-  return new Promise((resolve, reject) => {
+  dbOpenPromise = new Promise((resolve, reject) => {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
     request.onupgradeneeded = (event) => {
@@ -36,7 +38,10 @@ export function openDatabase(): Promise<IDBDatabase> {
     };
 
     request.onerror = (event) => {
+      dbOpenPromise = null;
       reject((event.target as IDBOpenDBRequest).error);
     };
   });
+
+  return dbOpenPromise;
 }

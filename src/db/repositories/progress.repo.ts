@@ -41,5 +41,6 @@ export async function upsertProgress(record: ProgressRecord): Promise<void> {
     tx.objectStore('progress').put(record);
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error ?? new Error('Transaction aborted'));
   });
 }

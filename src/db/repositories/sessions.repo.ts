@@ -8,6 +8,7 @@ export async function addSession(session: Omit<SessionRecord, 'id'>): Promise<vo
     tx.objectStore('sessions').add(session);
     tx.oncomplete = () => resolve();
     tx.onerror = () => reject(tx.error);
+    tx.onabort = () => reject(tx.error ?? new Error('Transaction aborted'));
   });
 }
 

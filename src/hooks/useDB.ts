@@ -17,7 +17,9 @@ export function useDB() {
         }
         setReady(true);
       } catch (err) {
-        setError(err instanceof Error ? err : new Error(String(err)));
+        const error = err instanceof Error ? err : new Error(String(err));
+        console.error('[useDB] Failed to initialise database:', error);
+        setError(error);
       }
     }
     init();

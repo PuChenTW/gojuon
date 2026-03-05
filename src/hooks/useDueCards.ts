@@ -1,9 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import type { KanaCard } from '../types';
-import { getDueCards } from '../db/repositories/progress.repo';
+import { getDueCards, getAllProgress, upsertProgress } from '../db/repositories/progress.repo';
 import { getAllCards } from '../db/repositories/cards.repo';
 import { defaultProgress } from '../srs/sm2';
-import { upsertProgress } from '../db/repositories/progress.repo';
 
 export function useDueCards(dbReady: boolean) {
   const [dueCards, setDueCards] = useState<KanaCard[]>([]);
@@ -15,19 +14,22 @@ export function useDueCards(dbReady: boolean) {
       const now = Date.now();
       const allCards = await getAllCards();
       const dueProgress = await getDueCards(now);
+      const allProgress = await getAllProgress();
+
       const dueIds = new Set(dueProgress.map((p) => p.cardId));
+      const hasProgressIds = new Set(allProgress.map((p) => p.cardId));
 
-      // Cards with no progress record are also due
-      const cardsWithNoProgress = allCards.filter((c) => !dueIds.has(c.id));
-
-      // Seed default progress for new cards so they appear in due list next time
-      for (const card of cardsWithNoProgress) {
+      // Only seed default progress for brand-new cards (no progress record at all)
+      const brandNewCards = allCards.filter((c) => !hasProgressIds.has(c.id));
+      for (const card of brandNewCards) {
         await upsertProgress(defaultProgress(card.id));
         dueIds.add(card.id);
       }
 
       const due = allCards.filter((c) => dueIds.has(c.id));
       setDueCards(due);
+    } catch (err) {
+      console.error('[useDueCards] Failed to load due cards:', err);
     } finally {
       setLoading(false);
     }
