@@ -14,7 +14,6 @@ export function CardFront({ kana, words }: Props) {
       {word && (
         <div className={styles.wordBlockFront}>
           <span className={styles.wordKanaFront}>{word.word}</span>
-          <span className={styles.wordReadingFront}>{word.reading}</span>
           <span className={styles.wordMeaningFront}>{word.meaning}</span>
         </div>
       )}
