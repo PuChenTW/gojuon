@@ -1,11 +1,13 @@
 import type { KanaCard, ProgressRecord } from '../../types';
 import { hiraganaRows } from '../../data/hiragana';
+import { katakanaRows } from '../../data/katakana';
 import { KanaCell } from './KanaCell';
 import styles from './KanaGrid.module.css';
 
 interface Props {
   cards: KanaCard[];
   progressMap: Map<string, ProgressRecord>;
+  type: 'hiragana' | 'katakana';
 }
 
 const LEGEND = [
@@ -16,8 +18,10 @@ const LEGEND = [
   { level: 4, color: 'var(--color-mastery-4)', label: '精通' },
 ];
 
-export function KanaGrid({ cards, progressMap }: Props) {
-  const cardsByRow = hiraganaRows.map((row) => ({
+export function KanaGrid({ cards, progressMap, type }: Props) {
+  const rows = type === 'katakana' ? katakanaRows : hiraganaRows;
+
+  const cardsByRow = rows.map((row) => ({
     row,
     cards: cards.filter((c) => c.row === row),
   }));

@@ -9,6 +9,7 @@ export interface KanaCard {
   kana: string;
   romaji: string;
   row: string;
+  type: 'hiragana' | 'katakana';
   words: Word[];
 }
 

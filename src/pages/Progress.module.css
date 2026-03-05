@@ -5,6 +5,30 @@
   margin-bottom: 1.5rem;
 }
 
+.tabs {
+  display: flex;
+  background: var(--color-surface-2);
+  padding: 4px;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  transition: all 0.2s;
+  color: var(--color-text-secondary);
+}
+
+.activeTab {
+  background: var(--color-surface);
+  color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
 .summaryCard {
   background: var(--color-surface);
   border: 1px solid var(--color-border);

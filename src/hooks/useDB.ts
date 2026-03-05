@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { openDatabase } from '../db/client';
-import { countCards, seedCards } from '../db/repositories/cards.repo';
+import { seedCards } from '../db/repositories/cards.repo';
 import { hiraganaCards } from '../data/hiragana';
+import { katakanaCards } from '../data/katakana';
 
 export function useDB() {
   const [ready, setReady] = useState(false);
@@ -11,10 +12,7 @@ export function useDB() {
     async function init() {
       try {
         await openDatabase();
-        const count = await countCards();
-        if (count === 0) {
-          await seedCards(hiraganaCards);
-        }
+        await seedCards([...hiraganaCards, ...katakanaCards]);
         setReady(true);
       } catch (err) {
         const error = err instanceof Error ? err : new Error(String(err));

@@ -9,6 +9,7 @@ import styles from './Progress.module.css';
 export function Progress() {
   const [cards, setCards] = useState<KanaCard[]>([]);
   const [progressMap, setProgressMap] = useState<Map<string, ProgressRecord>>(new Map());
+  const [type, setType] = useState<'hiragana' | 'katakana'>('hiragana');
 
   useEffect(() => {
     async function load() {
@@ -19,14 +20,15 @@ export function Progress() {
     load();
   }, []);
 
-  const learned = [...progressMap.values()].filter((p) => p.reps >= 3).length;
-  const mastered = [...progressMap.values()].filter((p) => p.reps >= 4).length;
+  const filteredCards = cards.filter((c) => c.type === type);
+  const learned = filteredCards.filter((c) => (progressMap.get(c.id)?.reps ?? 0) >= 3).length;
+  const mastered = filteredCards.filter((c) => (progressMap.get(c.id)?.reps ?? 0) >= 4).length;
 
   return (
     <PageShell title="進捗">
       <div className={styles.summary}>
         <div className={styles.summaryCard}>
-          <span className={styles.summaryValue}>{cards.length}</span>
+          <span className={styles.summaryValue}>{filteredCards.length}</span>
           <span className={styles.summaryLabel}>合計</span>
         </div>
         <div className={styles.summaryCard}>
@@ -38,7 +40,23 @@ export function Progress() {
           <span className={styles.summaryLabel}>精通</span>
         </div>
       </div>
-      <KanaGrid cards={cards} progressMap={progressMap} />
+
+      <div className={styles.tabs}>
+        <button
+          className={`${styles.tab} ${type === 'hiragana' ? styles.activeTab : ''}`}
+          onClick={() => setType('hiragana')}
+        >
+          平仮名
+        </button>
+        <button
+          className={`${styles.tab} ${type === 'katakana' ? styles.activeTab : ''}`}
+          onClick={() => setType('katakana')}
+        >
+          片仮名
+        </button>
+      </div>
+
+      <KanaGrid cards={filteredCards} progressMap={progressMap} type={type} />
     </PageShell>
   );
 }
