@@ -30,7 +30,7 @@ export function FlipCard({ card, onFlipped }: Props) {
     >
       <div className={`flip-inner ${flipped ? 'is-flipped' : ''}`}>
         <div className="flip-face flip-face--front">
-          <CardFront kana={card.kana} />
+          <CardFront kana={card.kana} words={card.words} />
         </div>
         <div className="flip-face flip-face--back">
           <CardBack romaji={card.romaji} words={card.words} />
