@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { KanaCard } from '../types';
 import { PageShell } from '../components/layout/PageShell';
 import { FlipCard } from '../components/card/FlipCard';
@@ -16,8 +16,12 @@ interface Props {
 export function Learn({ cards, onFinish, index, onIndexChange }: Props) {
   const [flipped, setFlipped] = useState(false);
   const [key, setKey] = useState(0); // Force FlipCard remount on next card
-  const startTimeRef = useRef(Date.now());
+  const startTimeRef = useRef(0);
   const { submitReview } = useProgress();
+
+  useEffect(() => {
+    startTimeRef.current = Date.now();
+  }, [index]);
 
   if (cards.length === 0) {
     return (
@@ -44,7 +48,6 @@ export function Learn({ cards, onFinish, index, onIndexChange }: Props) {
       onIndexChange(index + 1);
       setFlipped(false);
       setKey((k) => k + 1);
-      startTimeRef.current = Date.now();
     }
   }
 
