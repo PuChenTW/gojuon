@@ -14,6 +14,7 @@ export default function App() {
   const { ready, error } = useDB();
   const { dueCards, loading, refresh } = useDueCards(ready);
   const [allCards, setAllCards] = useState<KanaCard[]>([]);
+  const [learnIndex, setLearnIndex] = useState(0);
 
   useEffect(() => {
     if (ready) {
@@ -40,6 +41,7 @@ export default function App() {
 
   function handleFinish() {
     refresh();
+    setLearnIndex(0);
     setPage('home');
   }
 
@@ -48,7 +50,7 @@ export default function App() {
       case 'home':
         return <Home dueCards={dueCards} totalCards={allCards.length} onNavigate={setPage} />;
       case 'learn':
-        return <Learn cards={dueCards} onFinish={handleFinish} />;
+        return <Learn cards={dueCards} onFinish={handleFinish} index={learnIndex} onIndexChange={setLearnIndex} />;
       case 'quiz':
         return <Quiz cards={dueCards} allCards={allCards} onFinish={handleFinish} />;
       case 'progress':

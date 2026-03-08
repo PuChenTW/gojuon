@@ -9,10 +9,11 @@ import styles from './Learn.module.css';
 interface Props {
   cards: KanaCard[];
   onFinish: () => void;
+  index: number;
+  onIndexChange: (i: number) => void;
 }
 
-export function Learn({ cards, onFinish }: Props) {
-  const [index, setIndex] = useState(0);
+export function Learn({ cards, onFinish, index, onIndexChange }: Props) {
   const [flipped, setFlipped] = useState(false);
   const [key, setKey] = useState(0); // Force FlipCard remount on next card
   const startTimeRef = useRef(Date.now());
@@ -40,7 +41,7 @@ export function Learn({ cards, onFinish }: Props) {
     if (index + 1 >= cards.length) {
       onFinish();
     } else {
-      setIndex(index + 1);
+      onIndexChange(index + 1);
       setFlipped(false);
       setKey((k) => k + 1);
       startTimeRef.current = Date.now();

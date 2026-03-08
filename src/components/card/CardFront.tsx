@@ -10,7 +10,7 @@ export function CardFront({ kana, words }: Props) {
   const word = words[0];
   return (
     <div className={styles.front}>
-      <span className={styles.kana}>{kana}</span>
+      <span className={styles.kana} data-testid="card-kana">{kana}</span>
       {word && (
         <div className={styles.wordBlockFront}>
           <span className={styles.wordKanaFront}>{word.word}</span>
