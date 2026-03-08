@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { KanaCard } from '../types';
 import { PageShell } from '../components/layout/PageShell';
 import { MultipleChoice } from '../components/quiz/MultipleChoice';
@@ -13,28 +13,33 @@ interface Props {
   onFinish: () => void;
 }
 
+function buildOptions(cards: KanaCard[], allCards: KanaCard[], index: number): string[] {
+  if (cards.length === 0) return [];
+  const card = cards[index % cards.length];
+  const others = allCards
+    .filter((c) => c.id !== card.id)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3)
+    .map((c) => c.romaji);
+  return [card.romaji, ...others].sort(() => Math.random() - 0.5);
+}
+
 export function Quiz({ cards, allCards, onFinish }: Props) {
   const [index, setIndex] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [done, setDone] = useState(false);
   const [questionKey, setQuestionKey] = useState(0);
-  const startTimeRef = useRef(Date.now());
+  const [options, setOptions] = useState<string[]>(() => buildOptions(cards, allCards, 0));
+  const startTimeRef = useRef(0);
   const { submitReview } = useProgress();
 
   // Alternate between multiple choice and type answer
   const isMultipleChoice = index % 2 === 0;
 
-  // Generate 4 options for multiple choice (1 correct + 3 random)
-  const options = useMemo(() => {
-    if (cards.length === 0) return [];
-    const card = cards[index % cards.length];
-    const others = allCards
-      .filter((c) => c.id !== card.id)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3)
-      .map((c) => c.romaji);
-    return [card.romaji, ...others].sort(() => Math.random() - 0.5);
-  }, [index, cards, allCards]);
+  // Reset timer whenever the card index changes
+  useEffect(() => {
+    startTimeRef.current = Date.now();
+  }, [index]);
 
   if (cards.length === 0 || done) {
     return (
@@ -66,9 +71,10 @@ export function Quiz({ cards, allCards, onFinish }: Props) {
       setDone(true);
       setTimeout(onFinish, 2000);
     } else {
-      setIndex((i) => i + 1);
+      const nextIndex = index + 1;
+      setIndex(nextIndex);
+      setOptions(buildOptions(cards, allCards, nextIndex));
       setQuestionKey((k) => k + 1);
-      startTimeRef.current = Date.now();
     }
   }
 
