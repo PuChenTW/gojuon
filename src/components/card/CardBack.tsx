@@ -3,11 +3,10 @@ import styles from './Card.module.css';
 
 interface Props {
   romaji: string;
-  words: Word[];
+  word: Word | undefined;
 }
 
-export function CardBack({ romaji, words }: Props) {
-  const word = words[0];
+export function CardBack({ romaji, word }: Props) {
   return (
     <div className={styles.back}>
       <span className={styles.romaji}>{romaji}</span>

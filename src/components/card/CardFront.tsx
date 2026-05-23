@@ -3,11 +3,10 @@ import styles from './Card.module.css';
 
 interface Props {
   kana: string;
-  words: Word[];
+  word: Word | undefined;
 }
 
-export function CardFront({ kana, words }: Props) {
-  const word = words[0];
+export function CardFront({ kana, word }: Props) {
   return (
     <div className={styles.front}>
       <span className={styles.kana} data-testid="card-kana">{kana}</span>

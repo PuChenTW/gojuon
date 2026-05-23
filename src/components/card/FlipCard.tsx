@@ -11,6 +11,10 @@ interface Props {
 
 export function FlipCard({ card, onFlipped }: Props) {
   const [flipped, setFlipped] = useState(false);
+  const [word] = useState(() => {
+    const { words } = card;
+    return words[Math.floor(Math.random() * words.length)];
+  });
 
   function handleFlip() {
     if (!flipped) {
@@ -30,10 +34,10 @@ export function FlipCard({ card, onFlipped }: Props) {
     >
       <div className={`flip-inner ${flipped ? 'is-flipped' : ''}`}>
         <div className="flip-face flip-face--front">
-          <CardFront kana={card.kana} words={card.words} />
+          <CardFront kana={card.kana} word={word} />
         </div>
         <div className="flip-face flip-face--back">
-          <CardBack romaji={card.romaji} words={card.words} />
+          <CardBack romaji={card.romaji} word={word} />
         </div>
       </div>
     </div>
